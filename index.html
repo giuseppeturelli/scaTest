@@ -54,7 +54,7 @@
                 };
 
                 try {
-                    window.webkit.messageHandlers.startSca.postMessage(message);
+                    window.webkit.messageHandlers.showLoader.postMessage(message);
                 } catch (e) {
                     console.error("error in startSca.postMessage", JSON.stringify(e));
                 }
@@ -70,11 +70,13 @@
                 }
             //iOS
             } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.startSca) {
-                const data = {}
+                const startScaData = {
+                    insuranceId: 1234
+                }
                 const message = {
                     command: 'startSca',
                     title: '',
-                    data: data
+                    data: startScaData
                 };
 
                 try {
