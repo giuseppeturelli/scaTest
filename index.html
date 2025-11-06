@@ -42,14 +42,28 @@
             }
         });
 
+        setTimeout(function() {
+            console.log ("Hiding Loader")
+                const message = {
+                    command: 'showLoader',
+                    title: '',
+                    data: '{shouldShowLoader: false }'
+                };
+
+                try {
+                    window.webkit.messageHandlers.startSca.postMessage(message);
+                } catch (e) {
+                    console.error("error in startSca.postMessage", JSON.stringify(e));
+                }
+        },2000)
+
         function startSca() {
             //Android
             if (window.WebViewInterface && window.WebViewInterface.startSca) {
-                console.debug("qui sta chiamando WebViewInterface.startSca");
                 try {
                     window.WebViewInterface.startSca('startSca', '');
                 } catch (e) {
-                    console.error("errore in WebViewInterface.startSca", JSON.stringify(e));
+                    console.error("error in WebViewInterface.startSca", JSON.stringify(e));
                 }
             //iOS
             } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.startSca) {
@@ -59,12 +73,10 @@
                     data: ''
                 };
 
-                console.debug("qui sta chiamando startSca.postMessage");
-
                 try {
                     window.webkit.messageHandlers.startSca.postMessage(message);
                 } catch (e) {
-                    console.error("errore in startSca.postMessage", JSON.stringify(e));
+                    console.error("error in startSca.postMessage", JSON.stringify(e));
                 }
             }
         }
