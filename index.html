@@ -30,22 +30,20 @@
     <button onclick="startSca()">SCA</button>
     <script>
         function startSca() {
-            console.log("Button SCA clicked!");
-            window.postMessage("startSca", "*");
             //Android
             if (webview.WebViewInterface && webview.WebViewInterface.startSca) {
                 console.debug("qui sta chiamando WebViewInterface.startSca");
                 try {
-                    webview.WebViewInterface.startSca(stepperEvent, JSON.stringify(data));
+                    webview.WebViewInterface.startSca('startSca', '');
                 } catch (e) {
                     console.error("errore in WebViewInterface.startSca", JSON.stringify(e));
                 }
             //iOS
             } else if (webview.webkit && webview.webkit.messageHandlers && webview.webkit.messageHandlers.startSca) {
                 const message = {
-                    command: command,
-                    title: stepperEvent,
-                    data: data
+                    command: 'startSca',
+                    title: '',
+                    data: ''
                 };
 
                 console.debug("qui sta chiamando startSca.postMessage");
