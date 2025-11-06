@@ -29,6 +29,19 @@
 <body>
     <button onclick="startSca()">SCA</button>
     <script>
+        function getRandomColor() {
+            const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FECA57', '#FF9FF3', '#54A0FF', '#5F27CD', '#00D2D3', '#FF9F43', '#10AC84', '#EE5A24', '#0984E3', '#A29BFE', '#FD79A8'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Also listen for custom events dispatched via postMessage
+        window.addEventListener('message', function(event) {
+            if (event.data === 'scaEnded') {
+                console.log('scaEnded message received');
+                document.body.style.backgroundColor = getRandomColor();
+            }
+        });
+
         function startSca() {
             //Android
             if (window.WebViewInterface && window.WebViewInterface.startSca) {
