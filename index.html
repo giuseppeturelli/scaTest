@@ -31,15 +31,15 @@
     <script>
         function startSca() {
             //Android
-            if (webview.WebViewInterface && webview.WebViewInterface.startSca) {
+            if (window.WebViewInterface && window.WebViewInterface.startSca) {
                 console.debug("qui sta chiamando WebViewInterface.startSca");
                 try {
-                    webview.WebViewInterface.startSca('startSca', '');
+                    window.WebViewInterface.startSca('startSca', '');
                 } catch (e) {
                     console.error("errore in WebViewInterface.startSca", JSON.stringify(e));
                 }
             //iOS
-            } else if (webview.webkit && webview.webkit.messageHandlers && webview.webkit.messageHandlers.startSca) {
+            } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.startSca) {
                 const message = {
                     command: 'startSca',
                     title: '',
@@ -49,7 +49,7 @@
                 console.debug("qui sta chiamando startSca.postMessage");
 
                 try {
-                    webview.webkit.messageHandlers.startSca.postMessage(message);
+                    window.webkit.messageHandlers.startSca.postMessage(message);
                 } catch (e) {
                     console.error("errore in startSca.postMessage", JSON.stringify(e));
                 }
