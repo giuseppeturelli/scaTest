@@ -70,10 +70,11 @@
                 }
             //iOS
             } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.startSca) {
+                const data = {}
                 const message = {
                     command: 'startSca',
                     title: '',
-                    data: ''
+                    data: data
                 };
 
                 try {
