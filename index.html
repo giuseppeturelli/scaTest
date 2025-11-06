@@ -44,10 +44,13 @@
 
         setTimeout(function() {
             console.log ("Hiding Loader")
+                const loaderOff = {
+                    shouldShowLoader: false
+                }
                 const message = {
                     command: 'showLoader',
                     title: '',
-                    data: JSON.stringify('{"shouldShowLoader": false}')
+                    data: loaderOff
                 };
 
                 try {
