@@ -91,7 +91,7 @@
 
         function trackEvent() {
             const trackEventData= {
-                title: "page-test",
+                title: "page-test-title",
                 tipo_polizza: "base"
             }
             //Android
@@ -105,7 +105,7 @@
             } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.tealium) {
                 const message = {
                     command: 'track',
-                    title: '',
+                    title: 'fake-screen-title',
                     data: trackEventData
                 };
 
