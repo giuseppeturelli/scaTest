@@ -91,12 +91,13 @@
 
         function trackEvent() {
             const trackEventData= {
+                title: "page-test",
                 tipo_polizza: "base"
             }
             //Android
             if (window.WebViewInterface && window.WebViewInterface.trackEvent) {
                 try {
-                    window.WebViewInterface.trackEvent('trackEvent', trackEventData);
+                    window.WebViewInterface.trackEvent('trackEvent', JSON.stringify(trackEventData));
                 } catch (e) {
                     console.error("error in WebViewInterface.trackEvent", JSON.stringify(e));
                 }
