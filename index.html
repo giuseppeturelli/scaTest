@@ -41,7 +41,7 @@
 <body>
     <button class="sca-btn" onclick="startSca()">SCA</button>
     <button class="track-btn" onclick="trackEvent()">TrackEvent</button>
-    <button class="call-btn" onclick="makePhoneCall()">MakePhoneCall</button>
+    <button class="call-btn" onclick="trackEvent()">MakePhoneCall</button>
     <script>
         function getRandomColor() {
             const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FECA57', '#FF9FF3', '#54A0FF', '#5F27CD', '#00D2D3', '#FF9F43', '#10AC84', '#EE5A24', '#0984E3', '#A29BFE', '#FD79A8'];
@@ -66,11 +66,12 @@
                     title: '',
                     data: loaderOff
                 };
-
-                try {
-                    window.webkit.messageHandlers.showLoader.postMessage(message);
-                } catch (e) {
-                    console.error("error in startSca.postMessage", JSON.stringify(e));
+                if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.showLoader) {
+                    try {
+                        window.webkit.messageHandlers.showLoader.postMessage(message);
+                    } catch (e) {
+                        console.error("error in startSca.postMessage", JSON.stringify(e));
+                    }
                 }
         },2000)
 
@@ -136,22 +137,22 @@
             //Android
             if (window.WebViewInterface && window.WebViewInterface.makePhoneCall) {
                 try {
-                    window.WebViewInterface.trackEvent('trackEvent', JSON.stringify(phoneCallData));
+                    window.WebViewInterface.makePhoneCall('makePhoneCall', JSON.stringify(phoneCallData));
                 } catch (e) {
-                    console.error("error in WebViewInterface.trackEvent", JSON.stringify(e));
+                    console.error("error in WebViewInterface.makePhoneCall", JSON.stringify(e));
                 }
             //iOS
             } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.makePhoneCall) {
                 const message = {
                     command: 'makePhoneCall',
                     title: '',
-                    data: trackEventData
+                    data: phoneCallData
                 };
 
                 try {
-                    window.webkit.messageHandlers.tealium.postMessage(message);
+                    window.webkit.messageHandlers.makePhoneCall.postMessage(message);
                 } catch (e) {
-                    console.error("error in trackEvent.postMessage", JSON.stringify(e));
+                    console.error("error in makePhoneCall.postMessage", JSON.stringify(e));
                 }
             }
         }
