@@ -30,13 +30,18 @@
             }
             .track-btn {
                 background-color: #FF8C00;
+                margin-bottom: 24px;
             }
-        }
+            .call-btn {
+                background-color: #5d00ff;
+                margin-bottom: 24px;
+            }
     </style>
 </head>
 <body>
     <button class="sca-btn" onclick="startSca()">SCA</button>
     <button class="track-btn" onclick="trackEvent()">TrackEvent</button>
+    <button class="call-btn" onclick="makePhoneCall()">MakePhoneCall</button>
     <script>
         function getRandomColor() {
             const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FECA57', '#FF9FF3', '#54A0FF', '#5F27CD', '#00D2D3', '#FF9F43', '#10AC84', '#EE5A24', '#0984E3', '#A29BFE', '#FD79A8'];
@@ -113,6 +118,33 @@
                 const message = {
                     command: 'track',
                     title: 'fake-screen-title',
+                    data: trackEventData
+                };
+
+                try {
+                    window.webkit.messageHandlers.tealium.postMessage(message);
+                } catch (e) {
+                    console.error("error in trackEvent.postMessage", JSON.stringify(e));
+                }
+            }
+        }
+
+        function makePhoneCall() {
+            const phoneCallData= {
+                phoneNumber: "33355511122"
+            }
+            //Android
+            if (window.WebViewInterface && window.WebViewInterface.makePhoneCall) {
+                try {
+                    window.WebViewInterface.trackEvent('trackEvent', JSON.stringify(phoneCallData));
+                } catch (e) {
+                    console.error("error in WebViewInterface.trackEvent", JSON.stringify(e));
+                }
+            //iOS
+            } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.makePhoneCall) {
+                const message = {
+                    command: 'makePhoneCall',
+                    title: '',
                     data: trackEventData
                 };
 
