@@ -102,7 +102,7 @@
                     console.error("error in WebViewInterface.trackEvent", JSON.stringify(e));
                 }
             //iOS
-            } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.trackEvent) {
+            } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.tealium) {
                 const message = {
                     command: 'track',
                     title: '',
@@ -110,7 +110,7 @@
                 };
 
                 try {
-                    window.webkit.messageHandlers.trackEvent.postMessage(message);
+                    window.webkit.messageHandlers.tealium.postMessage(message);
                 } catch (e) {
                     console.error("error in trackEvent.postMessage", JSON.stringify(e));
                 }
