@@ -28,6 +28,8 @@
 </head>
 <body>
     <button onclick="startSca()">SCA</button>
+
+    <button onclick="trackEvent()">TrackEvent</button>
     <script>
         function getRandomColor() {
             const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FECA57', '#FF9FF3', '#54A0FF', '#5F27CD', '#00D2D3', '#FF9F43', '#10AC84', '#EE5A24', '#0984E3', '#A29BFE', '#FD79A8'];
@@ -83,6 +85,33 @@
                     window.webkit.messageHandlers.startSca.postMessage(message);
                 } catch (e) {
                     console.error("error in startSca.postMessage", JSON.stringify(e));
+                }
+            }
+        }
+
+        function trackEvent() {
+            const trackEventData= {
+                tipo_polizza: "base"
+            }
+            //Android
+            if (window.WebViewInterface && window.WebViewInterface.trackEvent) {
+                try {
+                    window.WebViewInterface.trackEvent('trackEvent', trackEventData);
+                } catch (e) {
+                    console.error("error in WebViewInterface.trackEvent", JSON.stringify(e));
+                }
+            //iOS
+            } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.trackEvent) {
+                const message = {
+                    command: 'track',
+                    title: '',
+                    data: trackEventData
+                };
+
+                try {
+                    window.webkit.messageHandlers.trackEvent.postMessage(message);
+                } catch (e) {
+                    console.error("error in trackEvent.postMessage", JSON.stringify(e));
                 }
             }
         }
