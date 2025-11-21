@@ -50,8 +50,8 @@
 
         // Also listen for custom events dispatched via postMessage
         window.addEventListener('message', function(event) {
-            if (event.data === 'scaEnded') {
-                console.log('scaEnded message received');
+            if (event.data === 'endSca') {
+                console.log('endSca message received');
                 document.body.style.backgroundColor = getRandomColor();
             }
         });
