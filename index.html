@@ -76,18 +76,19 @@
         },2000)
 
         function startSca() {
+            const startScaData = {
+                insuranceId: 1234,
+                operation: "RENEW"
+            }
             //Android
             if (window.WebViewInterface && window.WebViewInterface.startSca) {
                 try {
-                    window.WebViewInterface.startSca('startSca', '');
+                    window.WebViewInterface.startSca('startSca', JSON.stringify(startScaData));
                 } catch (e) {
                     console.error("error in WebViewInterface.startSca", JSON.stringify(e));
                 }
             //iOS
             } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.startSca) {
-                const startScaData = {
-                    insuranceId: 1234
-                }
                 const message = {
                     command: 'startSca',
                     title: '',
