@@ -40,6 +40,7 @@
 </head>
 <body>
     <button class="sca-btn" onclick="startSca()">SCA</button>
+    <button class="track-btn" onclick="trackView()">TrackView</button>
     <button class="track-btn" onclick="trackEvent()">TrackEvent</button>
     <button class="call-btn" onclick="makePhoneCall()">MakePhoneCall</button>
     <script>
@@ -99,6 +100,35 @@
                     window.webkit.messageHandlers.startSca.postMessage(message);
                 } catch (e) {
                     console.error("error in startSca.postMessage", JSON.stringify(e));
+                }
+            }
+        }
+
+        function trackView() {
+            const trackViewData= {
+                title: "page-test-title",
+                custom_dimensions: [{key: "tipo_polizza", value: "view_Top"}, {key: "key_test_dimension_view", value: "value_test_dimension_view"}],
+                tipo_polizza: "view_base"
+            }
+            //Android
+            if (window.WebViewInterface && window.WebViewInterface.trackView) {
+                try {
+                    window.WebViewInterface.trackView('trackView', JSON.stringify(trackViewData));
+                } catch (e) {
+                    console.error("error in WebViewInterface.trackView", JSON.stringify(e));
+                }
+            //iOS
+            } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.tealium) {
+                const message = {
+                    command: 'track',
+                    title: 'fake-screen-title',
+                    data: trackViewData
+                };
+
+                try {
+                    window.webkit.messageHandlers.tealium.postMessage(message);
+                } catch (e) {
+                    console.error("error in trackView.postMessage", JSON.stringify(e));
                 }
             }
         }
