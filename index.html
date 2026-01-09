@@ -44,6 +44,15 @@
     <button class="track-btn" onclick="trackEvent()">TrackEvent</button>
     <button class="call-btn" onclick="makePhoneCall()">MakePhoneCall</button>
     <script>
+        function generateUUID() {
+            // Generate UUID v4 using vanilla JavaScript
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
         function getRandomColor() {
             const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FECA57', '#FF9FF3', '#54A0FF', '#5F27CD', '#00D2D3', '#FF9F43', '#10AC84', '#EE5A24', '#0984E3', '#A29BFE', '#FD79A8'];
             return colors[Math.floor(Math.random() * colors.length)];
@@ -78,7 +87,7 @@
 
         function startSca() {
             const startScaData = {
-                contextID: "f8c3de3d-1fea-4d7c-a8b0-29f63c4c4454",
+                contextID: generateUUID(),
                 operation: "STD"
             }
             //Android
