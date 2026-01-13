@@ -129,7 +129,7 @@
             //iOS
             } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.tealium) {
                 const message = {
-                    command: 'track',
+                    command: 'trackView',
                     title: 'fake-screen-title',
                     data: trackViewData
                 };
@@ -159,7 +159,7 @@
             } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.tealium) {
                 const message = {
                     command: 'track',
-                    title: 'fake-screen-title',
+                    title: 'fake-event-title',
                     data: trackEventData
                 };
 
