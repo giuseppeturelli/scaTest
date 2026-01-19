@@ -57,7 +57,7 @@
     <button class="track-btn" onclick="trackEvent()">TrackEvent</button>
     <button class="call-btn" onclick="makePhoneCall()">MakePhoneCall</button>
     <input type="text" id="urlInput" placeholder="Enter URL path">
-    <button class="url-btn" onclick="openUnipolUrl()">Open Unipol URL</button>
+    <button class="url-btn" onclick="openunimolUrl()">Open unimol URL</button>
     <script>
         function generateUUID() {
             // Generate UUID v4 using vanilla JavaScript
@@ -213,7 +213,7 @@
             }
         }
 
-        function openUnipolUrl() {
+        function openunimolUrl() {
             const urlInput = document.getElementById('urlInput');
             const inputValue = urlInput.value.trim();
             
@@ -223,7 +223,7 @@
             }
             
             const encodedPath = encodeURI(inputValue);
-            const fullUrl = 'https://unipol/' + encodedPath;
+            const fullUrl = 'https://unimol/' + encodedPath;
             
             try {
                 window.open(fullUrl, '_blank');
