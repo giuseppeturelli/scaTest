@@ -226,7 +226,7 @@
             const fullUrl = 'https://unimol/' + encodedPath;
             
             try {
-                window.open(fullUrl, '_blank');
+                location.href = fullUrl;
             } catch (e) {
                 console.error("error opening URL", JSON.stringify(e));
             }
