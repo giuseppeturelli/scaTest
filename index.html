@@ -49,6 +49,43 @@
                 width: 300px;
                 text-align: center;
             }
+            .header-config-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 30px;
+                padding: 20px;
+                border: 2px solid #4169E1;
+                border-radius: 12px;
+                background-color: #F0F8FF;
+            }
+            .input-group {
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+                width: 100%;
+                max-width: 400px;
+            }
+            .input-group label {
+                font-size: 16px;
+                font-weight: bold;
+                margin-right: 10px;
+                min-width: 150px;
+                text-align: right;
+            }
+            .input-group input[type="text"] {
+                margin-bottom: 0;
+                flex: 1;
+            }
+            .input-group input[type="checkbox"] {
+                width: 20px;
+                height: 20px;
+                cursor: pointer;
+            }
+            .header-btn {
+                background-color: #4169E1;
+                margin-top: 15px;
+            }
     </style>
 </head>
 <body>
@@ -58,6 +95,26 @@
     <button class="call-btn" onclick="makePhoneCall()">MakePhoneCall</button>
     <input type="text" id="urlInput" placeholder="Enter URL path">
     <button class="url-btn" onclick="openunimolUrl()">Open unimol URL</button>
+    
+    <div class="header-config-container">
+        <div class="input-group">
+            <label for="shouldShowBack">shouldShowBack:</label>
+            <input type="checkbox" id="shouldShowBack" checked>
+        </div>
+        <div class="input-group">
+            <label for="backBehavior">backBehavior:</label>
+            <input type="text" id="backBehavior" value="nativePop">
+        </div>
+        <div class="input-group">
+            <label for="shouldShowExit">shouldShowExit:</label>
+            <input type="checkbox" id="shouldShowExit">
+        </div>
+        <div class="input-group">
+            <label for="headerTitle">headerTitle:</label>
+            <input type="text" id="headerTitle" value="nativeBackNoExit">
+        </div>
+        <button class="header-btn" onclick="applyHeaderConfig()">Apply Header Config</button>
+    </div>
     <script>
         function generateUUID() {
             // Generate UUID v4 using vanilla JavaScript
@@ -230,6 +287,23 @@
             } catch (e) {
                 console.error("error opening URL", JSON.stringify(e));
             }
+        }
+
+        function applyHeaderConfig() {
+            const shouldShowBack = document.getElementById('shouldShowBack').checked;
+            const backBehavior = document.getElementById('backBehavior').value.trim();
+            const shouldShowExit = document.getElementById('shouldShowExit').checked;
+            const headerTitle = document.getElementById('headerTitle').value.trim();
+            
+            const data = {
+                shouldShowBack,
+                backBehavior,
+                shouldShowExit,
+                headerTitle
+            };
+            
+            console.log('Calling headerConfig with data:', data);
+            headerConfig(data);
         }
 
         function headerConfig(data) {
