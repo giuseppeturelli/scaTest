@@ -101,14 +101,21 @@
             <label for="shouldShowBack">shouldShowBack:</label>
             <input type="checkbox" id="shouldShowBack" checked>
         </div>
+        <div>Possible Values "nativePop" and "webHistoryBack, case insensitive</div>
         <div class="input-group">
             <label for="backBehavior">backBehavior:</label>
-            <input type="text" id="backBehavior" value="nativePop">
+            <input type="text" id="backBehavior">
         </div>
         <div class="input-group">
             <label for="shouldShowExit">shouldShowExit:</label>
             <input type="checkbox" id="shouldShowExit">
         </div>
+        <div>Partial url for redirection, if undefined or empty then nativePop</div>
+        <div class="input-group">
+            <label for="exitUrl">exitUrl:</label>
+            <input type="text" id="exitUrl" value="nativePop">
+        </div>
+        <div>Customize page title, if undefined or missing the title stays unchanged</div>
         <div class="input-group">
             <label for="headerTitle">headerTitle:</label>
             <input type="text" id="headerTitle" value="nativeBackNoExit">
@@ -293,6 +300,7 @@
             const shouldShowBack = document.getElementById('shouldShowBack').checked;
             const backBehavior = document.getElementById('backBehavior').value.trim();
             const shouldShowExit = document.getElementById('shouldShowExit').checked;
+            const exitUrl = document.getElementById('exitUrl').value.trim();
             const headerTitle = document.getElementById('headerTitle').value.trim();
             
             const data = {
