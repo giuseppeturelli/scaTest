@@ -46,8 +46,34 @@
                 border: 2px solid #ccc;
                 border-radius: 8px;
                 margin-bottom: 24px;
-                width: 300px;
+                max-width: 500px;
+                width: 100%;
+                box-sizing: border-box;
                 text-align: center;
+                background-color: white;
+            }
+            /* Base select appearance to match inputs */
+            select {
+                font-size: 18px;
+                padding: 10px;
+                border: 2px solid #ccc;
+                border-radius: 8px;
+                margin-bottom: 24px;
+                max-width: 500px;
+                width: 100%;
+                box-sizing: border-box;
+                background-color: white;
+                /* Make it look like a native dropdown */
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                text-align: left;
+                padding-right: 40px;
+                cursor: pointer;
+                background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%23666' d='M6 8L0 0h12z'/></svg>");
+                background-repeat: no-repeat;
+                background-position: calc(100% - 12px) center;
+                background-size: 12px 8px;
             }
             .header-config-container {
                 display: flex;
@@ -58,13 +84,16 @@
                 border: 2px solid #4169E1;
                 border-radius: 12px;
                 background-color: #F0F8FF;
+                max-width: 500px;
+                width: 80%;
             }
             .input-group {
                 display: flex;
-                align-items: center;
+                flex-direction: column;
+                align-items: stretch;
                 margin-bottom: 15px;
                 width: 100%;
-                max-width: 400px;
+                max-width: 100%;
             }
             .input-group label {
                 font-size: 16px;
@@ -73,10 +102,23 @@
                 min-width: 150px;
                 text-align: right;
             }
-            .input-group input[type="text"] {
+            .input-group input[type="text"], .input-group select {
                 margin-bottom: 0;
                 flex: 1;
+                width: 100%;
+                box-sizing: border-box;
             }
+
+            .input-group label {
+                text-align: left;
+                margin-right: 0;
+                margin-bottom: 8px;
+                min-width: auto;
+            }
+            .input-group input[type="text"], .input-group select {
+                width: 100%;
+            }
+
             .input-group input[type="checkbox"] {
                 width: 20px;
                 height: 20px;
@@ -101,23 +143,27 @@
             <label for="shouldShowBack">shouldShowBack:</label>
             <input type="checkbox" id="shouldShowBack" checked>
         </div>
-        <div>Possible values: "nativePop" and "webHistoryBack, case insensitive</div>
         <div class="input-group">
             <label for="backBehavior">backBehavior:</label>
-            <input type="text" id="backBehavior">
+            <div>Possible values: "nativePop", "webHistoryBack", or "undefined", case insensitive</div>
+            <select id="backBehavior">
+                <option value="nativePop">nativePop</option>
+                <option value="webHistoryBack">webHistoryBack</option>
+                <option value="undefined">undefined</option>
+            </select>
         </div>
         <div class="input-group">
             <label for="shouldShowExit">shouldShowExit:</label>
             <input type="checkbox" id="shouldShowExit">
         </div>
-        <div>Partial url for redirection, if undefined or empty then nativePop</div>
         <div class="input-group">
             <label for="exitUrl">exitUrl:</label>
+            <div>Partial url for redirection, if undefined or empty then nativePop</div>
             <input type="text" id="exitUrl">
         </div>
-        <div>Customize page title, if undefined or missing the title stays unchanged</div>
         <div class="input-group">
             <label for="headerTitle">headerTitle:</label>
+            <div>Customize page title, if undefined or missing the title stays unchanged</div>
             <input type="text" id="headerTitle">
         </div>
         <button class="header-btn" onclick="applyHeaderConfig()">Apply Header Config</button>
@@ -298,17 +344,25 @@
 
         function applyHeaderConfig() {
             const shouldShowBack = document.getElementById('shouldShowBack').checked;
-            const backBehavior = document.getElementById('backBehavior').value.trim();
+            const backBehavior = document.getElementById('backBehavior').value;
             const shouldShowExit = document.getElementById('shouldShowExit').checked;
-            const exitUrl = document.getElementById('exitUrl').value.trim();
+            const exitUrl = document.getElementById('exitUrl').value;
             const headerTitle = document.getElementById('headerTitle').value.trim();
             
             const data = {
                 shouldShowBack,
-                backBehavior,
                 shouldShowExit,
                 headerTitle
             };
+
+            // Only include backBehavior if user selected a real value
+            if (backBehavior && backBehavior !== 'undefined') {
+                data.backBehavior = backBehavior;
+            }
+
+            if (exitUrl && exitUrl !== 'undefined') {
+                data.exitUrl = exitUrl;
+            }
             
             console.log('Calling headerConfig with data:', data);
             headerConfig(data);
