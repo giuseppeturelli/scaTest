@@ -347,12 +347,11 @@
             const backBehavior = document.getElementById('backBehavior').value;
             const shouldShowExit = document.getElementById('shouldShowExit').checked;
             const exitUrl = document.getElementById('exitUrl').value;
-            const headerTitle = document.getElementById('headerTitle').value.trim();
+            const headerTitle = document.getElementById('headerTitle').value;
             
             const data = {
                 shouldShowBack,
-                shouldShowExit,
-                headerTitle
+                shouldShowExit
             };
 
             // Only include backBehavior if user selected a real value
@@ -362,6 +361,10 @@
 
             if (exitUrl && exitUrl !== 'undefined') {
                 data.exitUrl = exitUrl;
+            }
+
+            if (headerTitle && headerTitle !== 'undefined') {
+                data.headerTitle = headerTitle;
             }
             
             console.log('Calling headerConfig with data:', data);
