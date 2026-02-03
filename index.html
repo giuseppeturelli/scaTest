@@ -231,6 +231,55 @@
                 console.error("error opening URL", JSON.stringify(e));
             }
         }
+
+        function headerConfig(data) {
+          try {
+            // Android
+            if (
+              typeof window !== "undefined" &&
+              window.WebViewInterface &&
+              window.WebViewInterface.headerConfig
+            ) {
+              try {
+                window.WebViewInterface.headerConfig(
+                  "headerConfig",
+                  JSON.stringify(data),
+                );
+                return;
+              } catch (e) {
+                console.error(
+                  "error in WebViewInterface.headerConfig",
+                  JSON.stringify(e),
+                );
+              }
+              // iOS
+            } else if (
+              typeof window !== "undefined" &&
+              window.webkit &&
+              window.webkit.messageHandlers &&
+              window.webkit.messageHandlers.headerConfig
+            ) {
+              const message = {
+                command: "headerConfig",
+                title: "",
+                data: data,
+              };
+        
+              try {
+                window.webkit.messageHandlers.headerConfig.postMessage(message);
+                return;
+              } catch (e) {
+                console.error("error in headerConfig.postMessage", JSON.stringify(e));
+              }
+            }
+            // If neither bridge is available: do nothing
+          } catch (e) {
+            console.error(
+              "headerConfig: unexpected error",
+              e && e.message ? e.message : e,
+            );
+          }
+        }
     </script>
 </body>
 </html>
