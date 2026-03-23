@@ -41,6 +41,10 @@
                 background-color: #DC143C;
                 margin-bottom: 24px;
             }
+            .external-url-btn {
+                background-color: #008080;
+                margin-bottom: 24px;
+            }
             input[type="text"] {
                 font-size: 18px;
                 padding: 10px;
@@ -139,6 +143,8 @@
     <button class="call-btn" onclick="makePhoneCall()">MakePhoneCall</button>
     <input type="text" id="urlInput" placeholder="Enter URL path">
     <button class="url-btn" onclick="openunimolUrl()">Open unimol URL</button>
+    <input type="text" id="externalUrlInput" placeholder="Enter HTTP URL">
+    <button class="external-url-btn" onclick="openExternalURL()">Open URL</button>
     
     <div class="header-config-container">
         <div class="input-group">
@@ -341,6 +347,45 @@
                 window.location.href = fullUrl;
             } catch (e) {
                 console.error("error opening URL", JSON.stringify(e));
+            }
+        }
+
+        function openExternalURL() {
+            const urlInput = document.getElementById('externalUrlInput');
+            const url = urlInput.value.trim();
+
+            if (!url) {
+                console.warn("External URL is empty");
+                return;
+            }
+
+            if (!/^https?:\/\//i.test(url)) {
+                console.warn("External URL must start with http:// or https://");
+                return;
+            }
+
+            const data = { url };
+
+            //Android
+            if (window.WebViewInterface && window.WebViewInterface.openExternalURL) {
+                try {
+                    window.WebViewInterface.openExternalURL('openExternalURL', JSON.stringify(data));
+                } catch (e) {
+                    console.error("error in WebViewInterface.openExternalURL", JSON.stringify(e));
+                }
+            //iOS
+            } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.openExternalURL) {
+                const message = {
+                    command: 'openExternalURL',
+                    title: '',
+                    data: data
+                };
+
+                try {
+                    window.webkit.messageHandlers.openExternalURL.postMessage(message);
+                } catch (e) {
+                    console.error("error in openExternalURL.postMessage", JSON.stringify(e));
+                }
             }
         }
 
