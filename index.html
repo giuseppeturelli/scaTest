@@ -134,6 +134,10 @@
                 background-color: #4169E1;
                 margin-top: 15px;
             }
+            .popup-btn {
+                background-color: #8B0000;
+                margin-bottom: 24px;
+            }
     </style>
 </head>
 <body>
@@ -145,6 +149,7 @@
     <button class="url-btn" onclick="openunimolUrl()">Open unimol URL</button>
     <input type="text" id="externalUrlInput" placeholder="Enter HTTP URL">
     <button class="external-url-btn" onclick="openExternalURL()">Open URL</button>
+    <button class="popup-btn" onclick="toggleShowPopUp()">ShowPopUp</button>
     
     <div class="header-config-container">
         <div class="input-group">
@@ -416,6 +421,35 @@
             
             console.log('Calling headerConfig with data:', data);
             headerConfig(data);
+        }
+
+        let isShowingPopUp = false;
+
+        function toggleShowPopUp() {
+            isShowingPopUp = !isShowingPopUp;
+            const data = { isShowingPopUp };
+
+            //Android
+            if (window.WebViewInterface && window.WebViewInterface.showPopUp) {
+                try {
+                    window.WebViewInterface.showPopUp('showPopUp', JSON.stringify(data));
+                } catch (e) {
+                    console.error("error in WebViewInterface.showPopUp", JSON.stringify(e));
+                }
+            //iOS
+            } else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.showPopUp) {
+                const message = {
+                    command: 'showPopUp',
+                    title: '',
+                    data: data
+                };
+
+                try {
+                    window.webkit.messageHandlers.showPopUp.postMessage(message);
+                } catch (e) {
+                    console.error("error in showPopUp.postMessage", JSON.stringify(e));
+                }
+            }
         }
 
         function headerConfig(data) {
