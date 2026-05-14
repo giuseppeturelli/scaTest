@@ -545,13 +545,13 @@
             const phaseCount = parseInt(phaseCountVal, 10);
             const currentPhase = parseInt(currentPhaseVal, 10);
 
-            if (!Number.isInteger(phaseCount) || phaseCount < 1) {
-                console.warn("phaseCount must be a positive integer");
+            if (!Number.isInteger(phaseCount) || phaseCount < 0) {
+                console.warn("phaseCount must be a non-negative integer");
                 return;
             }
 
-            if (!Number.isInteger(currentPhase) || currentPhase < 1) {
-                console.warn("currentPhase must be a positive integer");
+            if (!Number.isInteger(currentPhase) || currentPhase < 0) {
+                console.warn("currentPhase must be a non-negative integer");
                 return;
             }
 
