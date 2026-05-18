@@ -197,6 +197,11 @@
     <button class="url-btn" onclick="openunimolUrl()">Open unimol URL</button>
     <input type="text" id="externalUrlInput" placeholder="Enter HTTP URL">
     <button class="external-url-btn" onclick="openExternalURL()">Open URL</button>
+    <div class="radio-group">
+        <label>showLogo:</label>
+        <label><input type="radio" name="showLogo" value="true" checked> true</label>
+        <label><input type="radio" name="showLogo" value="false"> false</label>
+    </div>
     <button class="popup-btn" onclick="toggleShowPopUp()">ShowPopUp</button>
     
     <div class="header-config-container">
@@ -505,7 +510,8 @@
 
         function toggleShowPopUp() {
             isShowingPopUp = !isShowingPopUp;
-            const data = { isShowingPopUp };
+            const showLogo = document.querySelector('input[name="showLogo"]:checked').value === 'true';
+            const data = { isShowingPopUp, showLogo };
 
             //Android
             if (window.WebViewInterface && window.WebViewInterface.showPopUp) {
