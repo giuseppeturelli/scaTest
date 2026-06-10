@@ -8,13 +8,43 @@
         body {
             background-color: lightgreen;
             margin: 0;
-            padding: 0;
+            padding: 24px 0;
             font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             height: fit-content;
+        }
+        .deep-links-container {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid #1E3A8A;
+            border-radius: 12px;
+            background-color: #EFF6FF;
+            max-width: 500px;
+            width: 80%;
+            box-sizing: border-box;
+        }
+        .deep-links-container h2 {
+            margin: 0 0 12px;
+            font-size: 22px;
+            text-align: center;
+        }
+        .deep-links-container ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .deep-links-container li + li {
+            margin-top: 10px;
+        }
+        .deep-links-container a {
+            color: #1D4ED8;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .deep-links-container a:hover {
+            text-decoration: underline;
         }
         button {
                 color: white;
@@ -189,6 +219,14 @@
     </style>
 </head>
 <body>
+    <div class="deep-links-container">
+        <h2>Deep links</h2>
+        <ul>
+            <li><a href="bperApp://bperapp?op_type=account_portability_prod_showcase">Account Portability - Porta in Bper</a></li>
+            <li><a href="bperApp://bperapp?op_type=anticipo_transato_pos">ATP - POS Cash</a></li>
+            <li><a href="bperApp://bperapp?op_type=anticipo_fatture">AF - Anticipo Fatture</a></li>
+        </ul>
+    </div>
     <button class="sca-btn" onclick="startSca()">SCA</button>
     <button class="track-btn" onclick="trackView()">TrackView</button>
     <button class="track-btn" onclick="trackEvent()">TrackEvent</button>
