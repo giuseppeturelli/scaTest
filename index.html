@@ -19,17 +19,18 @@
         .deep-links-container {
             margin-bottom: 30px;
             padding: 20px;
-            border: 2px solid #1E3A8A;
+            border: 2px solid #4169E1;
             border-radius: 12px;
-            background-color: #EFF6FF;
+            background-color: #F0F8FF;
             max-width: 500px;
             width: 80%;
             box-sizing: border-box;
         }
         .deep-links-container h2 {
-            margin: 0 0 12px;
+            margin: 0 0 8px;
             font-size: 22px;
             text-align: center;
+            color: #1E3A8A;
         }
         .deep-links-container ul {
             margin: 0;
@@ -39,12 +40,36 @@
             margin-top: 10px;
         }
         .deep-links-container a {
-            color: #1D4ED8;
+            color: #4169E1;
             font-weight: bold;
             text-decoration: none;
         }
         .deep-links-container a:hover {
             text-decoration: underline;
+        }
+        .detected-os-badge {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-bottom: 14px;
+            letter-spacing: 0.03em;
+        }
+        .detected-os-badge.android {
+            background-color: #D4EDDA;
+            color: #155724;
+            border: 1px solid #C3E6CB;
+        }
+        .detected-os-badge.ios {
+            background-color: #D1ECF1;
+            color: #0C5460;
+            border: 1px solid #BEE5EB;
+        }
+        .detected-os-badge.unknown {
+            background-color: #FFF3CD;
+            color: #856404;
+            border: 1px solid #FFEEBA;
         }
         button {
                 color: white;
@@ -220,20 +245,11 @@
 </head>
 <body>
     <div class="deep-links-container">
-        <h2>Android Deep links</h2>
-        <ul>
-            <li><a href="intent://bperapp?op_type=account_portability_prod_showcase#Intent;scheme=bperApp;package=it.gruppobper.ams.android.bper.dev.staging;end">Account Portability - Porta in Bper</a></li>
-            <li><a href="intent://bperapp?op_type=anticipo_transato_pos#Intent;scheme=bperApp;package=it.gruppobper.ams.android.bper.dev.staging;end">ATP - POS Cash</a></li>
-            <li><a href="intent://bperapp?op_type=anticipo_fatture#Intent;scheme=bperApp;package=it.gruppobper.ams.android.bper.dev.staging;end">AF - Anticipo Fatture</a></li>
-            
-        </ul>
-
-                <h2>iOS Deep links</h2>
-        <ul>
-            <li><a href="bperApp://bperapp?op_type=account_portability_prod_showcase">Account Portability - Porta in Bper</a></li>
-            <li><a href="bperApp://bperapp?op_type=anticipo_transato_pos">ATP - POS Cash</a></li>
-            <li><a href="bperApp://bperapp?op_type=anticipo_fatture">AF - Anticipo Fatture</a></li>
-            
+        <h2>Deep Links</h2>
+        <div style="text-align:center;">
+            <span id="detected-os-badge" class="detected-os-badge"></span>
+        </div>
+        <ul id="deep-links-list">
         </ul>
     </div>
     <button class="sca-btn" onclick="startSca()">SCA</button>
@@ -312,6 +328,56 @@
         <button class="current-step-btn" onclick="callCurrentStep()">currentStep</button>
     </div>
     <script>
+        (function initDeepLinks() {
+            const deepLinks = [
+                { label: 'Account Portability - Porta in Bper', opType: 'account_portability_prod_showcase' },
+                { label: 'ATP - POS Cash',                       opType: 'anticipo_transato_pos' },
+                { label: 'AF - Anticipo Fatture',                opType: 'anticipo_fatture' }
+            ];
+
+            function buildAndroidUrl(opType) {
+                return 'intent://bperapp?op_type=' + opType + '#Intent;scheme=bperApp;package=it.gruppobper.ams.android.bper.dev.staging;end';
+            }
+
+            function buildIosUrl(opType) {
+                return 'bperApp://bperapp?op_type=' + opType;
+            }
+
+            var ua = navigator.userAgent || '';
+            var isIos = /iPhone|iPad|iPod/i.test(ua);
+            var isAndroid = /Android/i.test(ua);
+
+            var badge = document.getElementById('detected-os-badge');
+            var list  = document.getElementById('deep-links-list');
+
+            var buildUrl, osLabel, badgeClass;
+            if (isAndroid) {
+                buildUrl   = buildAndroidUrl;
+                osLabel    = '🤖 Android';
+                badgeClass = 'android';
+            } else if (isIos) {
+                buildUrl   = buildIosUrl;
+                osLabel    = '🍎 iOS';
+                badgeClass = 'ios';
+            } else {
+                buildUrl   = buildIosUrl;
+                osLabel    = '❓ Unknown OS (iOS links shown)';
+                badgeClass = 'unknown';
+            }
+
+            badge.textContent = osLabel;
+            badge.className   = 'detected-os-badge ' + badgeClass;
+
+            deepLinks.forEach(function(link) {
+                var li = document.createElement('li');
+                var a  = document.createElement('a');
+                a.href        = buildUrl(link.opType);
+                a.textContent = link.label;
+                li.appendChild(a);
+                list.appendChild(li);
+            });
+        })();
+
         function generateUUID() {
             // Generate UUID v4 using vanilla JavaScript
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
