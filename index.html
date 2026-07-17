@@ -331,17 +331,19 @@
     <script>
         (function initDeepLinks() {
             const deepLinks = [
+                { label: 'SDD Detail - FEA',                     params: 'opType=sdd_detail&product_id=24672589&mandate_id=00003-ZCCLRD13B14F257T-1&creditor_id=IT700010000000221940364&type=CORE' },
+                { label: 'SDD Detail - NIVIA',                   params: 'opType=sdd_detail&product_id=24753281&mandate_id=018222GE326DX&creditor_id=IT120010000003806020404&type=CORE' },
                 { label: 'Account Portability - Porta in Bper', opType: 'account_portability_prod_showcase' },
                 { label: 'ATP - POS Cash',                       opType: 'anticipo_transato_pos' },
                 { label: 'AF - Anticipo Fatture',                opType: 'anticipo_fatture' }
             ];
 
-            function buildAndroidUrl(opType) {
-                return 'intent://bperapp?op_type=' + opType + '#Intent;scheme=bperApp;package=it.gruppobper.ams.android.bper.dev.staging;end';
+            function buildAndroidUrl(params) {
+                return 'intent://bperapp?' + params + '#Intent;scheme=bperApp;package=it.gruppobper.ams.android.bper.dev.staging;end';
             }
 
-            function buildIosUrl(opType) {
-                return 'bperApp://bperapp?op_type=' + opType;
+            function buildIosUrl(params) {
+                return 'bperApp://bperapp?' + params;
             }
 
             var ua = navigator.userAgent || '';
@@ -370,9 +372,10 @@
             badge.className   = 'detected-os-badge ' + badgeClass;
 
             deepLinks.forEach(function(link) {
-                var li = document.createElement('li');
-                var a  = document.createElement('a');
-                a.href        = buildUrl(link.opType);
+                var li     = document.createElement('li');
+                var a      = document.createElement('a');
+                var params = link.params || ('op_type=' + link.opType);
+                a.href        = buildUrl(params);
                 a.textContent = link.label;
                 li.appendChild(a);
                 list.appendChild(li);
